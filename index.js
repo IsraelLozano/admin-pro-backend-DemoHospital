@@ -1,35 +1,32 @@
 const cors = require("cors");
-
-/** @type {*} */
 const express = require("express");
+
+/** Congiruacion de los enviroments. */
 require("dotenv").config();
 
 const { dbConection } = require("./database/config");
 
-/** @type {*} Crea servidor express*/
 const app = express();
 
 app.use(cors());
 
-// base de datos
+/**Lectura y parseo del body */
+app.use(express.json());
 
+// base de datos
 dbConection();
 
-// console.log(process.env);
-
 //Rutas
-app.get("/", (req, res) => {
-  res.json({
-    ok: true,
-    msg: "Hola mundo",
-  });
-});
-
-//credenciales
-
-// ilozano
-// DjPuUTk-75TcFmP
+app.use("/api/usuarios", require("./routes/usuarios"));
+app.use("/api/login", require("./routes/auth"));
 
 app.listen(process.env.PORT, () => {
   console.log("Servidor corriendo en el puerto " + process.env.PORT);
 });
+
+/**Anotaciones
+ * !OJO
+ * credenciales
+ilozano
+DjPuUTk-75TcFmP
+ */
